@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="../lib/react.js"></script>
+  <script src="../lib/react-dom.js"></script>
+  <script src="../lib/babel.js"></script>
+
+  <script type="text/babel">
+    class App extends React.Component{
+      constructor() {
+        super()
+        this.state = {
+          movies: ["abc", "ccc", "aaa", "hhh"]
+        }
+      }
+      render() {
+        return (
+          <div>
+            
+            <ul>
+              {this.state.movies.map(movie => <li>{movie}</li>)}
+            </ul>
+          </div>
+        )
+      }
+    }
+
+
+    const root = ReactDOM.createRoot(document.querySelector("#root"))
+    
+    root.render(<App/>)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+</head>
+<body>
+  <div id="root"></div>
+
+</body>
+
+<script crossorigin src="../lib/react.js"></script>
+<script crossorigin src="../lib/react-dom.js"></script> 
+<script src="../lib/babel.js"></script>
+
+<script type="text/babel">
+  const root = ReactDOM.createRoot(document.querySelector("#root"))
+  class App extends React.Component {
+    constructor() {
+      super()
+      this.state = {
+        message: "hello world"
+      }
+      this.btnClick = this.btnClick.bind(this)
+    }
+
+    btnClick() {
+        this.setState({
+          message: "test"
+        }) 
+      }
+
+    render() {
+      return (
+        <div>
+          <h2>{this.state.message}</h2>  
+          <button onClick={this.btnClick}>点击一下</button>
+        </div>
+      )
+
+      
+    }
+  }
+
+
+  root.render(<App/>)
+</script>
+</html>
