@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计数器</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      text-align: center;
+    }
+    th,td {
+      border: 1px solid black;
+      padding: 8px 16px;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id="root"></div>
+
+  <script src="../lib/react.js"></script>
+  <script src="../lib/react-dom.js"></script>
+  <script src="../lib/babel.js"></script>
+  <script src="./data.js"></script>
+  <script type="text/babel">
+    // 1.定义App根组件
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          books: books
+        }
+      }
+      getTotalPrice() {
+        return this.state.books.reduce((preValue, item) => {
+          return preValue + item.count * item.price
+        }, 0)
+      }
+      changeCount(index, count) {
+          const newBooks = [...this.state.books]
+          newBooks[index].count += count
+          this.setState({
+            books: newBooks
+          })
+          console.log("object");
+      }
+      removeBook(index) {
+        const newBooks = [...this.state.books]
+        newBooks.splice(index, 1)
+        this.setState({
+          books: newBooks
+        })
+        console.log(index);
+      }
+      renderBookEmpty() {
+        return <div><h2>购物车为空, 请添加书籍~</h2></div>
+      }
+      renderBooksList() {
+        const { books } = this.state
+        return (
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>书籍名称</th>
+                  <th>出版日期</th>
+                  <th>价格</th>
+                  <th>购买数量</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                {
+                  books.map((item, index) => {
+                      return (
+                        <tr key={item.id}>
+                          <td>{item.id}</td>
+                          <td>{item.name}</td>
+                          <td>{item.date}</td>
+                          <td>{item.price}</td>
+                          <td>
+                            <button disabled={item.count <= 1} onClick={() => this.changeCount(index,-1)}>-</button>
+                            {item.count}
+                            <button onClick={() => this.changeCount(index,1)}>+</button>
+                          </td>
+                          <td><button onClick={() => this.removeBook(index)}>删除</button></td>
+                        </tr>
+                      )
+                  })
+                }
+              </tbody>
+              
+            </table>
+            <h2>总价格:{this.getTotalPrice()}</h2>
+          </div>
+        )
+      
+      }
+      render() {
+        const { books } = this.state
+        return books.length ? this.renderBooksList() : this.renderBookEmpty()
+      }
+    }
+
+    // 2.创建root并且渲染App组件
+    const root = ReactDOM.createRoot(document.querySelector("#root"))
+    root.render(<App/>)
+  </script>
+
+</body>
+</html>
